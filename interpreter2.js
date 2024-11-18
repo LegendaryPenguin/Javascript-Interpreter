@@ -4,8 +4,6 @@ const acorn = require("acorn");
 function parseCode(code) {
   return acorn.parse(code, { ecmaVersion: 2020 });
 }
-
-// Variable Environment
 const environment = {};
 
 // Interpret Function
@@ -38,12 +36,12 @@ function interpretNode(node) {
         const value = interpretNode(declaration.init); // Initialize variable
         environment[varName] = value;
       }
-      return null; // Variable declarations don't produce a result
+      return null; 
 
-    case 'ExpressionStatement': // Handle standalone expressions
+    //Handle standalone expressions
+    case 'ExpressionStatement': 
       return interpretNode(node.expression);
-
-    default: // Unsupported node types
+    default: 
       console.log(`Unsupported node type: ${node.type}`);
       return null;
   }
@@ -53,18 +51,15 @@ function interpretNode(node) {
 function interpret(code) {
   const ast = parseCode(code);
   let result = null;
-
+  // Process each statement
   for (const statement of ast.body) {
-    result = interpretNode(statement); // Process each statement
+    result = interpretNode(statement); 
   }
 
   return result;
 }
 
-// Sample Usage
-console.log(interpret('2 + 3 * 4')); // Outputs: 14
-
-// Variable usage
+// Sample usage
 interpret('let x = 5;');
 interpret('let y = 3;');
-console.log(interpret('x + y * 2')); // Outputs: 11
+console.log(interpret('x + y * 2')); 
